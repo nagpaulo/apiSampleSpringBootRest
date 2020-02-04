@@ -1,0 +1,14 @@
+management:
+  endpoint:
+    info:
+      enabled: true
+    shutdown:
+      enabled: true
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+spring:
+  profiles:
+    active: dev

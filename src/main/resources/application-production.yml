@@ -1,0 +1,29 @@
+jwt:
+  expiration: 604800
+  secret: '@Dyl38SngrA4eIX7OLvrMJqbGtpv7L'
+paginacao:
+  qtd_por_pagina: 10
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: pronatec
+    platform: postgres
+    url: jdbc:postgresql://172.31.7.19:5432/db_academy
+    username: user_acad_pronatec
+  flyway:
+    enabled: false
+    schemas: financeiro
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: false
+        temp:
+          use_jdbc_metadata_defaults: false
+        type: trace
+    show-sql: false
