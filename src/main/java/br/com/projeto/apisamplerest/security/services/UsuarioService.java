@@ -2,7 +2,7 @@ package br.com.projeto.apisamplerest.security.services;
 
 import java.util.Optional;
 
-import br.com.projeto.apisamplerest.security.entities.Usuario;
+import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 
 public interface UsuarioService {
 
@@ -15,5 +15,7 @@ public interface UsuarioService {
 	Optional<Usuario> buscarPorEmail(String email);
 	
 	Optional<Usuario> findPorEmailMapper(String login);
+	
+	Optional<Usuario> buscarPorEmailOuLogin(String username);
 
 }

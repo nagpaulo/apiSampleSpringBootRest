@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.apisamplerest.response.Response;
 import br.com.projeto.apisamplerest.security.dto.UsuarioDto;
-import br.com.projeto.apisamplerest.security.entities.Usuario;
+import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 import br.com.projeto.apisamplerest.security.services.UsuarioService;
 
 @RestController

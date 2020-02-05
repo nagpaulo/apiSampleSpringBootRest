@@ -69,14 +69,21 @@ public class AuthenticationController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		log.info("Gerando token para o email {}.", authenticationDto.getEmail());
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authenticationDto.getEmail(), authenticationDto.getSenha()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		log.info("Gerando token para o email {}.", authenticationDto.getUsername());
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(), authenticationDto.getSenha()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getEmail());
-		String token = jwtTokenUtil.obterToken(userDetails);
-		response.setData(new TokenDto(token));
+			UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getUsername());
+			String token = jwtTokenUtil.obterToken(userDetails);
+			response.setData(new TokenDto(token));
+		} catch (AuthenticationException e) {
+			System.out.println("Authentication failed: " + e.getMessage());
+			result.getAllErrors().forEach(error -> response.getErrors().add(e.getMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+		
 
 		return ResponseEntity.ok(response);
 	}

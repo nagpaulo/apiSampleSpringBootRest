@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import br.com.projeto.apisamplerest.security.entities.Usuario;
+import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 
 @Mapper
 public interface UsuarioMapper {
