@@ -10,6 +10,6 @@ public interface PerfilUsuarioRepository extends JpaRepository<PerfilUsuario, Lo
 	@Query("SELECT pu,u,p FROM PerfilUsuario pu "
 			+ " JOIN pu.usuario u "
 			+ " JOIN pu.perfil p "
-			+ " WHERE (u.login = :username OR u.email = :username) ")
+			+ " WHERE (upper(u.login) = upper(:username) OR u.email = :username) ")
 	PerfilUsuario findByEmailOrLogin(@Param("username") String username);
 }

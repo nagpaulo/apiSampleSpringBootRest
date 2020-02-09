@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +26,16 @@ import br.com.projeto.apisamplerest.response.Response;
 import br.com.projeto.apisamplerest.security.dto.JwtAuthenticationDto;
 import br.com.projeto.apisamplerest.security.dto.TokenDto;
 import br.com.projeto.apisamplerest.security.utils.JwtTokenUtil;
+import lombok.extern.slf4j.Slf4j;
 
 
 
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "*")
+@Slf4j
 public class AuthenticationController {
 
-	private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 	private static final String TOKEN_HEADER = "Authorization";
 	private static final String BEARER_PREFIX = "Bearer ";
 
@@ -69,7 +68,7 @@ public class AuthenticationController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		log.info("Gerando token para o email {}.", authenticationDto.getUsername());
+		log.info("Gerando token para o usuario {}.", authenticationDto.getUsername());
 		try {
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(), authenticationDto.getSenha()));
