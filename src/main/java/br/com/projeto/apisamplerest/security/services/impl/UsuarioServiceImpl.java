@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.apisamplerest.mapper.UsuarioMapper;
+import br.com.projeto.apisamplerest.security.exception.RegraNegocioException;
 import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 import br.com.projeto.apisamplerest.security.model.repositories.UsuarioRepository;
 import br.com.projeto.apisamplerest.security.services.UsuarioService;
@@ -33,6 +34,23 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Optional<Usuario> buscarPorEmailOuLogin(String username) {
 		return Optional.ofNullable(this.usuarioRepository.findByEmailOrLogin(username));
+	}
+
+	@Override
+	public void validarPorEmail(String email) {
+		boolean valida = this.usuarioRepository.existsByEmail(email);
+		if(valida) {
+			throw new RegraNegocioException("Já existe um usuario cadastrado com este email");
+		}
+	}
+
+	@Override
+	public void validarPorLogin(String login) {
+		boolean valida = this.usuarioRepository.existsByLogin(login);
+		if(valida) {
+			throw new RegraNegocioException("Já existe um usuario cadastrado com este login");
+		}
+		
 	}	
 	
 }

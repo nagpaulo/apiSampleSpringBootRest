@@ -11,9 +11,12 @@ import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Usuario findByEmail(String email);
 	
-	@Query("SELECT u,p FROM Usuario u "
-			+ " JOIN PerfilUsuario pu "
-			+ " JOIN Perfil p "
+	@Query("SELECT u FROM Usuario u "
 			+ " WHERE (upper(u.login) = upper(:username) OR u.email = :username) ")
 	Usuario findByEmailOrLogin(@Param("username") String username);
+	
+	
+	boolean existsByEmail(String email);
+	
+	boolean existsByLogin(String login);
 }

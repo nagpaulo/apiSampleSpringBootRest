@@ -17,5 +17,9 @@ public interface UsuarioService {
 	Optional<Usuario> findPorEmailMapper(String login);
 	
 	Optional<Usuario> buscarPorEmailOuLogin(String username);
+	
+	void validarPorEmail(String email);
+	
+	void validarPorLogin(String login);
 
 }
