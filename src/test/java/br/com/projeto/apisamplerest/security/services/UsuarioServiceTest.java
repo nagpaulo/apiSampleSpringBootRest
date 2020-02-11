@@ -50,7 +50,7 @@ public class UsuarioServiceTest {
 		Mockito.when(usuario.getEmail()).thenReturn(email);
 		Mockito.when(repository.findByEmail(email)).thenReturn(usuario);
 		
-		assertThatThrownBy(() -> { throw new RegraNegocioException("Já existe um usuario cadastrado com este email"); }).isInstanceOf(RegraNegocioException.class)
+		assertThatThrownBy(() -> { service.validarPorEmail(email); }).isInstanceOf(RegraNegocioException.class)
 			.hasMessage("Já existe um usuario cadastrado com este email");
 	}
 
