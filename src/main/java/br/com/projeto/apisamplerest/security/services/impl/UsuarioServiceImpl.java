@@ -3,7 +3,6 @@ package br.com.projeto.apisamplerest.security.services.impl;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.apisamplerest.mapper.UsuarioMapper;
@@ -11,15 +10,14 @@ import br.com.projeto.apisamplerest.security.exception.RegraNegocioException;
 import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 import br.com.projeto.apisamplerest.security.model.repositories.UsuarioRepository;
 import br.com.projeto.apisamplerest.security.services.UsuarioService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@Autowired
-	private UsuarioMapper usuarioMapper;
+	private final UsuarioRepository usuarioRepository;
+	private final UsuarioMapper usuarioMapper;
 	
 	@Override
 	public Optional<Usuario> buscarPorEmail(String email) {
