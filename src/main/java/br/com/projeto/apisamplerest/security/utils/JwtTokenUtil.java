@@ -24,6 +24,7 @@ public class JwtTokenUtil implements Serializable{
 	static final String CLAIM_KEY_USERNAME = "sub";
 	static final String CLAIM_KEY_ROLE = "role";
 	static final String CLAIM_KEY_CREATED = "created";
+	String perfil = null;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -50,25 +51,23 @@ public class JwtTokenUtil implements Serializable{
 	
 	
 	/**
-	 * Obtém o username (email) contido no token JWT.
+	 * Obtém o perfil (email/login) contido no token JWT.
 	 * 
 	 * @param token
 	 * @return String
 	 */
-	public String getPerfilFromToken(String token) {
-		String perfil = null;
+	public String getPerfilFromToken(String token) {		
 		try {
 			Claims claims = getClaimsFromToken(token);
 			claims.forEach((role,desc)->{
-				System.out.println("Item : " + role + " Count : " + desc);
 				if("role".equals(role)){
-					System.out.println("role: "+desc.toString());
-				}
+					this.perfil = String.valueOf(desc);
+				}				
 			});
 		} catch (Exception e) {
-			perfil = null;
+			this.perfil = null;
 		}
-		return perfil;
+		return this.perfil;
 	}
 
 	/**
