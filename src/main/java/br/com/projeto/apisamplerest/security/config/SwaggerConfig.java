@@ -20,7 +20,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
         		.groupName("application")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.gov.ce.seduc.apipronatec.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.projeto.apisamplerest.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -30,7 +30,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
         		.groupName("security")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.gov.ce.seduc.apipronatec.security.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.projeto.apisamplerest.security.controllers"))
                 .paths(PathSelectors.any())
                 .build();
     }

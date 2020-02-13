@@ -47,6 +47,29 @@ public class JwtTokenUtil implements Serializable{
 		}
 		return username;
 	}
+	
+	
+	/**
+	 * Obtém o username (email) contido no token JWT.
+	 * 
+	 * @param token
+	 * @return String
+	 */
+	public String getPerfilFromToken(String token) {
+		String perfil = null;
+		try {
+			Claims claims = getClaimsFromToken(token);
+			claims.forEach((role,desc)->{
+				System.out.println("Item : " + role + " Count : " + desc);
+				if("role".equals(role)){
+					System.out.println("role: "+desc.toString());
+				}
+			});
+		} catch (Exception e) {
+			perfil = null;
+		}
+		return perfil;
+	}
 
 	/**
 	 * Retorna a data de expiração de um token JWT.

@@ -1,5 +1,5 @@
 jwt:
-  expiration: 604800
+  expiration: 1800
   secret: '@Dyl38SngrA4eIX7OLvrMJqbGtpv7L'
 paginacao:
   qtd_por_pagina: 10
