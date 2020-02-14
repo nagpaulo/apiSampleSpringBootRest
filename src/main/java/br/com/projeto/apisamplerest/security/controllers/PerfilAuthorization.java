@@ -1,5 +1,6 @@
 package br.com.projeto.apisamplerest.security.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.apisamplerest.response.Response;
+import br.com.projeto.apisamplerest.security.model.entities.Permissao;
+import br.com.projeto.apisamplerest.security.services.PermissaoService;
 import br.com.projeto.apisamplerest.security.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +28,11 @@ public class PerfilAuthorization {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
+	@Autowired
+	private PermissaoService permissaoService;
+	
 	@GetMapping(value = "/list")
-	public ResponseEntity<Response<String>> getAuthorizationPerfil(HttpServletRequest request){
+	public ResponseEntity<Response<List<Permissao>>> getAuthorizationPerfil(HttpServletRequest request){
 		log.info("Buscando autorizações por perfil: {}", "Teste");
 		
 		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
@@ -34,11 +40,17 @@ public class PerfilAuthorization {
 			token = Optional.of(token.get().substring(7));
 		}
 		
-		String perfil = jwtTokenUtil.getPerfilFromToken(token.get());
+		String role = jwtTokenUtil.getPerfilFromToken(token.get());
+		Optional<List<Permissao>> permissao = permissaoService.buscarPermissaoPorPerfil(role);
+		Response<List<Permissao>> response = new Response<List<Permissao>>();
 		
+		if(!permissao.isPresent()) {
+			log.warn("Permissão(ões) não encontrada(s) com a role {}",role);
+			response.getErrors().add("Permissão(ões) não encontrada(s) com a role "+role);
+			return ResponseEntity.badRequest().body(response);
+		}
 		
-		Response<String> response = new Response<String>();
-		response.setData(perfil);
+		response.setData(permissao.get());
 		return ResponseEntity.ok(response);
 	}
 }
