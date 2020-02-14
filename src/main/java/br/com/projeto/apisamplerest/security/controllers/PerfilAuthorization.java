@@ -36,6 +36,7 @@ public class PerfilAuthorization {
 		
 		String perfil = jwtTokenUtil.getPerfilFromToken(token.get());
 		
+		
 		Response<String> response = new Response<String>();
 		response.setData(perfil);
 		return ResponseEntity.ok(response);
