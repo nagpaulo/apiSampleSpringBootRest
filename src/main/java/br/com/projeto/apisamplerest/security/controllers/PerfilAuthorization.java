@@ -2,6 +2,7 @@ package br.com.projeto.apisamplerest.security.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projeto.apisamplerest.response.Response;
+import br.com.projeto.apisamplerest.security.dto.PermissaoDto;
 import br.com.projeto.apisamplerest.security.model.entities.Permissao;
 import br.com.projeto.apisamplerest.security.services.PermissaoService;
 import br.com.projeto.apisamplerest.security.utils.JwtTokenUtil;
@@ -32,7 +34,7 @@ public class PerfilAuthorization {
 	private PermissaoService permissaoService;
 	
 	@GetMapping(value = "/list")
-	public ResponseEntity<Response<List<Permissao>>> getAuthorizationPerfil(HttpServletRequest request){
+	public ResponseEntity<Response<List<PermissaoDto>>> getAuthorizationPerfil(HttpServletRequest request){
 		log.info("Buscando autorizações por perfil: {}", "Teste");
 		
 		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
@@ -41,16 +43,31 @@ public class PerfilAuthorization {
 		}
 		
 		String role = jwtTokenUtil.getPerfilFromToken(token.get());
-		Optional<List<Permissao>> permissao = permissaoService.buscarPermissaoPorPerfil(role);
-		Response<List<Permissao>> response = new Response<List<Permissao>>();
+		Optional<List<Permissao>> permissoes = permissaoService.buscarPermissaoPorPerfil(role);
+		Response<List<PermissaoDto>> response = new Response<List<PermissaoDto>>();  
 		
-		if(!permissao.isPresent()) {
+		if(!permissoes.isPresent()) {
 			log.warn("Permissão(ões) não encontrada(s) com a role {}",role);
 			response.getErrors().add("Permissão(ões) não encontrada(s) com a role "+role);
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		response.setData(permissao.get());
+		List<Permissao> listPermissoes = permissoes.get();
+		List<PermissaoDto> permissaoDto = listPermissoes
+											.stream()
+											.map(permissao -> this.convertePermissoaDto(permissao))
+											.collect(Collectors.toList());
+		
+		response.setData(permissaoDto);
 		return ResponseEntity.ok(response);
 	}
+	
+	@SuppressWarnings("static-access")
+	public PermissaoDto convertePermissoaDto(Permissao permissao) {
+		PermissaoDto permissaoDto = new PermissaoDto();
+		return permissaoDto.builder()
+					.id(permissao.getId())
+					.permissao(permissao.getPermissao()).build();
+	}
+	
 }
