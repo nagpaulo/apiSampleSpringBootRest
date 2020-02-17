@@ -37,7 +37,7 @@ public class PerfilAuthorization {
 	@Cacheable("permissoes")
 	@GetMapping(value = "/list")
 	public ResponseEntity<Response<List<PermissaoDto>>> getAuthorizationPerfil(HttpServletRequest request){
-		log.info("Buscando autorizações por perfil: {}", "Teste");
+		log.info("Buscando autorizações por perfil");
 		
 		Optional<String> token = Optional.ofNullable(request.getHeader(TOKEN_HEADER));
 		if (token.isPresent() && token.get().startsWith(BEARER_PREFIX)) {
