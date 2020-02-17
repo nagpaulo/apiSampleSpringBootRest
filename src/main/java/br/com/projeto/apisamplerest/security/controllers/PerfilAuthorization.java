@@ -57,7 +57,7 @@ public class PerfilAuthorization {
 		List<Permissao> listPermissoes = permissoes.get();
 		List<PermissaoDto> permissaoDto = listPermissoes
 											.stream()
-											.map(permissao -> this.convertePermissoaDto(permissao))
+											.map(permissao -> this.convertePermissaoDto(permissao))
 											.collect(Collectors.toList());
 		
 		response.setData(permissaoDto);
@@ -65,7 +65,7 @@ public class PerfilAuthorization {
 	}
 	
 	@SuppressWarnings("static-access")
-	public PermissaoDto convertePermissoaDto(Permissao permissao) {
+	public PermissaoDto convertePermissaoDto(Permissao permissao) {
 		PermissaoDto permissaoDto = new PermissaoDto();
 		return permissaoDto.builder()
 					.id(permissao.getId())
