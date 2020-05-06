@@ -15,11 +15,12 @@ import br.com.projeto.apisamplerest.response.Response;
 import br.com.projeto.apisamplerest.security.dto.UsuarioDto;
 import br.com.projeto.apisamplerest.security.model.entities.Usuario;
 import br.com.projeto.apisamplerest.security.services.UsuarioService;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("test")
+@Slf4j
 public class TestController {
-	private static Logger log = LoggerFactory.getLogger(TestController.class);
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -34,8 +35,7 @@ public class TestController {
 			log.warn("Nenhum usuario encontrado");
 			response.getErrors().add("Nenhum usuario encontrado!"+ login);
             return ResponseEntity.badRequest().body(response);
-		}
-		
+		}		
 		
 		response.setData(this.converteUsuarioDto(usuario.get()));
 		return ResponseEntity.ok(response);		
